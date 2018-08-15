@@ -2364,6 +2364,12 @@ The *jobs* service is accountable for managing `Jobs` including its `Tasks`.  Al
                 
                 "created_at": "2016-01-30T02:11:47-0500",
                 
+                "clips": [{
+                    "duration": "35",
+                    "delivery_setting_uid": "208303f2-6bed-4805-8be6-d65ad13807a2",
+                    "start_time": "5"
+                }],
+                
                 "embedded": {
                     "project": {
                         "uid": "92389905-e729-46b4-a069-1de160999914",
@@ -2650,7 +2656,16 @@ Files that reside in volumes that are mounted to an engine.
  - `location_id` the Engine uid the file is located on
  - `nested_bundle` (optional) flag that only applies to directories, if `true` the root directory will be flattened (excluded)
  
-When submitting a new job, a map of optional metadata (keyas and values) may be specified via the `metadata` attribute.
+When submitting a new job, a map of optional metadata (keys and values) may be specified via the `metadata` attribute.
+
+When submitting a new job, clipping details may be specified via the `clips` attribute to clip transcoded files.
+
+Clipping output files is not supported for
+ - Original source file profiles
+ - Thumbnails
+ - Custom Profiles
+
+
 
 + Parameters
     + organizationId (string, required) - UUID of the Organization
@@ -2699,6 +2714,28 @@ When submitting a new job, a map of optional metadata (keyas and values) may be 
             {
                 "location_id": "c360a67a-417c-494b-b3ea-6aba8cd24393",
                 "file_path": "/media/mymount/movie.mp4"
+            }
+            
++ Response 201
+
+    [Job][]
+
+
++ Request Process an existing file with clipping is Successful (application/vnd.ad-brevity-v1.0hal+json)
+
+    + Headers
+    
+            Accept: application/vnd.ad-brevity-v1.0hal+json
+
+    + Body
+    
+            {
+                "source_file_id": "005d69d3-7de6-4545-90f2-ff5ec7758259",
+                "clips": [{
+                    "delivery_setting_uid":  "208303f2-6bed-4805-8be6-d65ad13807a2",
+                    "start_time": "5",
+                    "duration":  "35"
+                }]
             }
             
 + Response 201
